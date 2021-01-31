@@ -1,5 +1,7 @@
 # Offset Me
 
+![Build](https://github.com/suchanekj/offset-me/workflows/Build/badge.svg?branch=main)
+
 ## Running in development with hot-reloading
 
 ```sh
