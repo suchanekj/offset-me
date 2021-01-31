@@ -16,9 +16,10 @@ d3.text("payments.csv", function(data) {
         .attr("class", "form-text")
         .text(function(d) {return d.Name + ":"});
 
-    offset_rows.append("div")
-        .attr("class", "slider-container")
-        .append("input")
+    slider_container = offset_rows.append("div")
+        .attr("class", "slider-container");
+
+    slider_container.append("input")
         .attr("class", "slider")
         .attr("id", function(d) {return "sld-" + d.ID})
         .attr("type", "range")
@@ -27,8 +28,33 @@ d3.text("payments.csv", function(data) {
         .attr("step", function(d) {return d.Max / 1000})
         .attr("value", function(d) {return d.Mid});
 
+    slider_marks = slider_container.append("div")
+        .attr("class", "slider-marks");
+
+    slider_marks.append("span")
+        .attr("class", "slider-mark")
+        .text("▶")
+        .attr("style", function(d) {
+            return "margin-left: " + String(Number(d.Low) / Number(d.Max) * 100) + "%"
+        })
+
+    slider_marks.append("span")
+        .attr("class", "slider-mark")
+        .text("▲")
+        .attr("style", function(d) {
+            return "margin-left: " + String((Number(d.Mid) - Number(d.Low)) / Number(d.Max) * 100) + "%"
+        })
+
+    slider_marks.append("span")
+        .attr("class", "slider-mark")
+        .text("◀")
+        .attr("style", function(d) {
+            return "margin-left: " + String((Number(d.High) - Number(d.Mid)) / Number(d.Max) * 100) + "%; margin-right: auto"
+        })
+
     offset_rows.append("div")
-        .attr("class", "form-value");
+        .attr("class", "form-value")
+        .text(function(d) {return d.Unit.replace("$", "£")});
 
     offset_rows.append("div")
         .attr("class", "slider-button")
@@ -45,11 +71,11 @@ d3.text("payments.csv", function(data) {
             var output = slider.parentElement.parentElement.children[2];
             slider.oninput = function () {
                 equalizeSliders(this.id);
-                output.innerHTML = this.value;
+                output.innerHTML = this.value + output.innerHTML.charAt(output.innerHTML.length - 1);
                 updateDonation();
             }
             equalizeSliders(slider.id);
-            output.innerHTML = slider.value;
+            output.innerHTML = slider.value + output.innerHTML.charAt(output.innerHTML.length - 1);
         })();
     }
 });
@@ -89,14 +115,14 @@ function equalizeSliders(id) {
         sum += Number(x[0].value);
     }
     var static_value = Number($("[id=" + id + "]")[0].value);
-    var multiplier = (1 - static_value) / (sum - static_value);
+    var multiplier = (100 - static_value) / (sum - static_value);
     for (i = 0; i < 10; i++) {
         var x = $("[id=" + id.slice(0, id.length - 1) + i + "]");
         if (x.length === 0) continue;
         if (x[0].id === id) continue;
         x[0].value = x[0].value * multiplier;
         var output = x[0].parentElement.parentElement.children[2];
-        output.innerHTML = x[0].value;
+        output.innerHTML = x[0].value + output.innerHTML.charAt(output.innerHTML.length - 1);
     }
 }
 
@@ -154,7 +180,7 @@ function updateDonation() {
     var parsedCSV = d3.csv.parse(csvData);
 
     var charity_names = d3.csv.parseRows(csvData)[0];
-    charity_names.splice(0, 6);
+    charity_names.splice(0, 7);
 
     for (charity_name of charity_names) {
         donationValues[charity_name] = 0;
@@ -180,7 +206,7 @@ function updateDonation() {
     for (var charityValue of sortedDonationValues) {
         donationsTable += '<tr class="donations-table-row">';
         donationsTable += "<td>" + charityValue[1] + "</td>";
-        donationsTable += "<td>" + charityValue[0].toFixed(2) + "</td>";
+        donationsTable += "<td>" + charityValue[0].toFixed(2) + "£</td>";
         donationsTable += '</tr>\n';
         donationsSum += charityValue[0];
     }
