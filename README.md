@@ -1,6 +1,6 @@
 # Offset Me
 
-![Build](https://github.com/suchanekj/offset-me/workflows/Build/badge.svg?branch=main)
+![Build](https://github.com/suchanekj/offset-me/workflows/Build/badge.svg?branch=master)
 
 ## Running in development with hot-reloading
 
