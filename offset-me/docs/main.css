@@ -1,6 +1,7 @@
- 
+
 /* start css.sty */
 .cmr-10x-x-109{}
+.cmbx-10x-x-109{ font-weight: bold;}
 .cmbsy-10x-x-109{font-weight: bold;}
 .cmbsy-10x-x-109{font-weight: bold;}
 .cmbsy-10x-x-109{font-weight: bold;}
@@ -28,8 +29,7 @@
 .cmsy-8{font-size:72%;}
 .cmsy-6{font-size:54%;}
 .cmr-17{font-size:154%;}
-.cmr-12{font-size:109%;}
-.cmbx-10{font-size:90%; font-weight: bold;}
+.cmtt-10x-x-109{font-family: monospace,monospace;}
 .cmti-10x-x-109{ font-style: italic;}
 p{margin-top:0;margin-bottom:0}
 p.indent{text-indent:0;}
@@ -104,7 +104,7 @@ div.figure img {text-align:center;}
 .reversemarginpar{float:left;}
 .equation td{text-align:center; vertical-align:middle; }
 td.eq-no{ width:5%; }
-table.equation { width:100%; } 
+table.equation { width:100%; }
 div.math-display, div.par-math-display{text-align:center;}
 mtr.hline mtd{ border-bottom:black solid 1px; padding-top:2px; padding-bottom:0em; }
 mtr.hline mtd mo{ display:none }
@@ -116,8 +116,8 @@ math .textbf { font-weight: bold; }
 table.tabular{border-collapse: collapse; border-spacing: 0;}
 mo.MathClass-op + mi{margin-left:0.3em}
 mi + mo.MathClass-op{margin-left:0.3em}
- math mstyle[mathvariant="bold"] { font-weight: bold; font-style: normal; } 
- math mstyle[mathvariant="normal"] { font-weight: normal; font-style: normal; } 
+math mstyle[mathvariant="bold"] { font-weight: bold; font-style: normal; }
+math mstyle[mathvariant="normal"] { font-weight: normal; font-style: normal; }
 .partToc a, .partToc, .likepartToc a, .likepartToc {line-height: 200%; font-weight:bold; font-size:110%;}
 .index-item, .index-subitem, .index-subsubitem {display:block}
 div.caption {text-indent:-2em; margin-left:3em; margin-right:1em; text-align:left;}
@@ -144,20 +144,44 @@ figure.figure > p {text-align:center;}
 figcaption.caption {text-indent:-2em; margin-left:3em; margin-right:1em; text-align:center;}
 figcaption.caption span.id{font-weight: bold; white-space: nowrap; }
 .equation-star td{text-align:center; vertical-align:middle; }
-table.equation-star { width:100%; } 
+table.equation-star { width:100%; }
 mtd.align-odd{margin-left:2em; text-align:right;}
 mtd.align-even{margin-right:2em; text-align:left;}
 .boxed{border: 1px solid black; padding-left:2px; padding-right:2px;}
 .rotatebox{display: inline-block;}
+div.tabular, div.center div.tabular {text-align: center; margin-top:0.5em; margin-bottom:0.5em; }
+table.tabular td p{margin-top:0em;}
+table.tabular {margin-left: auto; margin-right: auto;}
+td p:first-child{ margin-top:0em; }
+td p:last-child{ margin-bottom:0em; }
+div.td00{ margin-left:0pt; margin-right:0pt; }
+div.td01{ margin-left:0pt; margin-right:5pt; }
+div.td10{ margin-left:5pt; margin-right:0pt; }
+div.td11{ margin-left:5pt; margin-right:5pt; }
+table[rules] {border-left:solid black 0.4pt; border-right:solid black 0.4pt; }
+td.td00{ padding-left:0pt; padding-right:0pt; }
+td.td01{ padding-left:0pt; padding-right:5pt; }
+td.td10{ padding-left:5pt; padding-right:0pt; }
+td.td11{ padding-left:5pt; padding-right:5pt; }
+table[rules] {border-left:solid black 0.4pt; border-right:solid black 0.4pt; }
+.hline hr, .cline hr{ height : 0px; margin:0px; }
+.hline td, .cline td{ padding: 0; }
+.hline hr, .cline hr{border:none;border-top:1px solid black;}
 .MathJax_MathML {text-indent: 0;}
-body { font-family: Minion Pro, Baskerville, Garamond, EB Garamond, Georgia, serif; font-size: 18px; line-height: 1.5; max-width: 40em; margin: auto; }
-.titleHead, .sectionHead, .subsectionHead, .textsf { font-family: Myriad Pro, Helvetica, Arial, sans-serif; }
-.titleHead, .sectionHead, .subsectionHead { color: FireBrick; }
-.texttt, .verb, .pre { font-family: Inconsolata, Consolas, Courier, monospace; }
+body { font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 18px; line-height: 1.5; max-width: 50em; margin: auto;
+    text-align: justify;
+}
+/*.titleHead, .sectionHead, .subsectionHead, .textsf { font-family: Myriad Pro, Helvetica, Arial, sans-serif; }*/
+/*.titleHead, .sectionHead, .subsectionHead { color: FireBrick; }*/
+/*.texttt, .verb, .pre { font-family: Inconsolata, Consolas, Courier, monospace; }*/
 .titleHead { font-size: 32px; }
 .sectionHead { font-size: 28px; }
 .subsectionHead { font-size: 24px; }
+.subsubsectionHead { font-size: 20px; }
+.paragraphHead {
+    display: block;
+}
 .titlemark { display: inline-block; width: 2em; }
 .figure img { display: block; margin: auto; }
 /* end css.sty */
-
