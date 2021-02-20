@@ -15,7 +15,6 @@ module.exports = {
       resolve: `gatsby-transformer-csv`,
       options: {
         ignoreEmpty: true,
-        nodePerFile: true,
       },
     },
   ],

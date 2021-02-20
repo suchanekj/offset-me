@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import "../styles.scss";
-import { Layout } from "../components";
+import { Layout, Slider } from "../components";
 import { useStaticQuery } from "gatsby";
 
 export default function Index() {
@@ -8,15 +8,13 @@ export default function Index() {
     query {
       allCalculationsCsv {
         nodes {
-          items {
-            Tier_1
-            Tier_2
-            Tier_3
-            Low
-            Mid
-            High
-            Max
-            Unit
+          slider
+          low
+          mid
+          high
+          max
+          unit
+          charities {
             Malaria_Consortium
             Against_Malaria_Foundation
             Deworm_the_World
@@ -50,34 +48,57 @@ export default function Index() {
     }
   `);
 
-  const [value, setValue] = useState(0);
+  const [donations, setDonations] = useState(
+    Object.fromEntries(
+      data.allCalculationsCsv.nodes.map(({ slider }) => [
+        slider[slider.length - 1],
+        0,
+      ])
+    )
+  );
 
-  const handleChange = (e) => {
-    setValue(e.target.value);
-  };
+  // create a tree of sliders from the CSV table
+  const slidersTree = useMemo(
+    () =>
+      data.allCalculationsCsv.nodes.reduce((acc, { slider, ...values }) => {
+        let obj = acc;
+        for (let child of slider) {
+          // create children if it doesn't yet exist
+          obj.children = obj.children || {};
+          // create child if it doesn't yet exit
+          obj.children[child] = obj.children[child] || {};
+          // get next child
+          obj = obj.children[child];
+        }
+        obj.values = values;
+        return acc;
+      }, {}),
+    [data]
+  );
+
+  function renderSliders(sliders) {
+    if (sliders) {
+      return Object.entries(sliders).map(([name, { values, children }]) => (
+        <>
+          <Slider
+            name={name}
+            value={donations[name]}
+            setValue={(donation) =>
+              setDonations((donations) => ({ ...donations, [name]: donation }))
+            }
+            min={values.min}
+            max={values.max}
+          />
+          {renderSliders(children)}
+        </>
+      ));
+    }
+    return null;
+  }
 
   return (
     <Layout>
-      <div class="box">
-        <div class="columns is-vcentered">
-          <label for="slider" class="column is-1 label">
-            Carbon
-          </label>
-          <input
-            id="slider"
-            class="column slider is-fullwidth is-circle"
-            type="range"
-            step="1"
-            min="0"
-            max="100"
-            value={value}
-            onChange={handleChange}
-          />
-          <output for="slider" class="column is-1">
-            {value}
-          </output>
-        </div>
-      </div>
+      <div class="box">{renderSliders(slidersTree.children)}</div>
     </Layout>
   );
 }
