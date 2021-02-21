@@ -7,6 +7,12 @@
     text-align: center;
 }
 
+#docs-link {
+    text-align: left;
+    margin-left: 0;
+    margin-right: auto;
+}
+
 .form-row {
     overflow: hidden;
     height:auto;
