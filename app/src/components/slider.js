@@ -1,12 +1,12 @@
 import React from "react";
 
-export const Slider = ({ name, value, setValue, min, max }) => {
+export const Slider = ({ name, value, setValue, min, max, unit }) => {
   const handleChange = (e) => {
     setValue(e.target.value);
   };
   return (
     <div class="columns is-vcentered">
-      <label for="slider" class="column is-1 label">
+      <label for="slider" class="column is-1">
         {name}
       </label>
       <input
@@ -20,7 +20,7 @@ export const Slider = ({ name, value, setValue, min, max }) => {
         onChange={handleChange}
       />
       <output for="slider" class="column is-1">
-        {value}
+        {unit === "%" ? `${value} %` : `£ ${value}`}
       </output>
     </div>
   );

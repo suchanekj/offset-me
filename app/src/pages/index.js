@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import "../styles.scss";
 import { Layout, Slider } from "../components";
 import { useStaticQuery } from "gatsby";
@@ -48,15 +48,6 @@ export default function Index() {
     }
   `);
 
-  const [donations, setDonations] = useState(
-    Object.fromEntries(
-      data.allCalculationsCsv.nodes.map(({ slider }) => [
-        slider[slider.length - 1],
-        0,
-      ])
-    )
-  );
-
   // create a tree of sliders from the CSV table
   const slidersTree = useMemo(
     () =>
@@ -65,7 +56,7 @@ export default function Index() {
         for (let child of slider) {
           // create children if it doesn't yet exist
           obj.children = obj.children || {};
-          // create child if it doesn't yet exit
+          // create child if it doesn't yet exist
           obj.children[child] = obj.children[child] || {};
           // get next child
           obj = obj.children[child];
@@ -76,24 +67,62 @@ export default function Index() {
     [data]
   );
 
+  const [openedSliders, setOpenedSliders] = useState({});
+  const [sliderValues, setSliderValues] = useState(
+    Object.fromEntries(
+      data.allCalculationsCsv.nodes.map(({ slider }) => [
+        slider[slider.length - 1],
+        0,
+      ])
+    )
+  );
+  const [donationValues, setDonationValues] = useState({}); // of the form {CharityA: 0, etc.}
+
+  // run calculations in a side-effect which updates the tree accordingly
+  // run calculations and setDonations, and also equalise the percentage sliders
+  // parent slider values increase all children equally
+  // percentage sliders equalise and adjust the parent monetary value coefficients accordingly
+  useEffect(() => {}, [sliderValues]);
+
   function renderSliders(sliders) {
-    if (sliders) {
-      return Object.entries(sliders).map(([name, { values, children }]) => (
+    return Object.entries(sliders).map(([name, { values, children }]) => {
+      const isOpen = Boolean(openedSliders[name]);
+      return (
         <>
-          <Slider
-            name={name}
-            value={donations[name]}
-            setValue={(donation) =>
-              setDonations((donations) => ({ ...donations, [name]: donation }))
-            }
-            min={values.min}
-            max={values.max}
-          />
-          {renderSliders(children)}
+          <div class="columns is-vcentered">
+            <div class="column">
+              <Slider
+                name={name}
+                value={sliderValues[name]}
+                setValue={(value) =>
+                  setSliderValues((sliderValues) => ({
+                    ...sliderValues,
+                    [name]: value,
+                  }))
+                }
+                {...values}
+              />
+            </div>
+            {children ? (
+              <span class="column is-1 icon is-large is-clickable">
+                <i
+                  class={`fas fa-lg ${
+                    isOpen ? "fa-caret-down" : "fa-caret-right"
+                  }`}
+                  onClick={() =>
+                    setOpenedSliders((openedSliders) => ({
+                      ...openedSliders,
+                      [name]: !isOpen,
+                    }))
+                  }
+                ></i>
+              </span>
+            ) : null}
+          </div>
+          {isOpen ? renderSliders(children) : null}
         </>
-      ));
-    }
-    return null;
+      );
+    });
   }
 
   return (
