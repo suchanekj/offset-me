@@ -1,7 +1,32 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo } from "react";
 import "../styles.scss";
 import { Layout, Slider } from "../components";
 import { useStaticQuery } from "gatsby";
+
+function equaliseSliders(name, value, sliders, setSliders) {
+  const sum = Object.entries(sliders).reduce(
+    (acc, [_, { value }]) => acc + Number(value),
+    0
+  );
+  const currentTotalOfOtherSliders = sum - sliders[name].value;
+  const whatItNeedsToBe = 100 - value;
+  const multiplier = whatItNeedsToBe / currentTotalOfOtherSliders;
+  const newSliders = Object.fromEntries(
+    Object.entries(sliders).map(([sliderName, properties]) => [
+      sliderName,
+      {
+        ...properties,
+        value:
+          sliderName === name
+            ? value
+            : properties.value === 0
+            ? 1
+            : properties.value * multiplier,
+      },
+    ])
+  );
+  setSliders(newSliders);
+}
 
 export default function Index() {
   const data = useStaticQuery(graphql`
@@ -14,6 +39,7 @@ export default function Index() {
           high
           max
           unit
+          initialValue
           charities {
             Malaria_Consortium
             Against_Malaria_Foundation
@@ -51,56 +77,58 @@ export default function Index() {
   // create a tree of sliders from the CSV table
   const slidersTree = useMemo(
     () =>
-      data.allCalculationsCsv.nodes.reduce((acc, { slider, ...values }) => {
-        let obj = acc;
-        for (let child of slider) {
-          // create children if it doesn't yet exist
-          obj.children = obj.children || {};
-          // create child if it doesn't yet exist
-          obj.children[child] = obj.children[child] || {};
-          // get next child
-          obj = obj.children[child];
-        }
-        obj.values = values;
-        return acc;
-      }, {}),
+      data.allCalculationsCsv.nodes.reduce(
+        (acc, { slider, initialValue, ...metadata }) => {
+          let obj = acc;
+          for (let child of slider) {
+            // create children if it doesn't yet exist
+            obj.children = obj.children || {};
+            // create child if it doesn't yet exist
+            obj.children[child] = obj.children[child] || {};
+            // get next child
+            obj = obj.children[child];
+          }
+          obj.metadata = metadata;
+          obj.value = Number(initialValue);
+          return acc;
+        },
+        {}
+      ),
     [data]
   );
-
   const [openedSliders, setOpenedSliders] = useState({});
-  const [sliderValues, setSliderValues] = useState(
-    Object.fromEntries(
-      data.allCalculationsCsv.nodes.map(({ slider }) => [
-        slider[slider.length - 1],
-        0,
-      ])
-    )
-  );
-  const [donationValues, setDonationValues] = useState({}); // of the form {CharityA: 0, etc.}
+  const [sliders, setSliders] = useState(slidersTree);
+  // const [donationValues, setDonationValues] = useState({}); // of the form {CharityA: 0, etc.}
 
   // run calculations in a side-effect which updates the tree accordingly
   // run calculations and setDonations, and also equalise the percentage sliders
   // parent slider values increase all children equally
-  // percentage sliders equalise and adjust the parent monetary value coefficients accordingly
-  useEffect(() => {}, [sliderValues]);
 
-  function renderSliders(sliders) {
-    return Object.entries(sliders).map(([name, { values, children }]) => {
+  function renderSliders(sliders, setSliders) {
+    return Object.entries(sliders).map(([name, properties]) => {
+      const { value, metadata, children } = properties;
       const isOpen = Boolean(openedSliders[name]);
+      const setProperty = (property, value) =>
+        setSliders({
+          ...sliders,
+          [name]: { ...properties, [property]: value },
+        });
+
       return (
         <>
           <div class="columns is-vcentered">
             <div class="column">
               <Slider
                 name={name}
-                value={sliderValues[name]}
-                setValue={(value) =>
-                  setSliderValues((sliderValues) => ({
-                    ...sliderValues,
-                    [name]: value,
-                  }))
-                }
-                {...values}
+                value={value}
+                setValue={(value) => {
+                  if (metadata.unit === "%") {
+                    equaliseSliders(name, value, sliders, setSliders);
+                  } else {
+                    setProperty("value", Number(value));
+                  }
+                }}
+                {...metadata}
               />
             </div>
             {children ? (
@@ -119,7 +147,11 @@ export default function Index() {
               </span>
             ) : null}
           </div>
-          {isOpen ? renderSliders(children) : null}
+          {isOpen
+            ? renderSliders(children, (sliders) =>
+                setProperty("children", sliders)
+              )
+            : null}
         </>
       );
     });
@@ -127,7 +159,11 @@ export default function Index() {
 
   return (
     <Layout>
-      <div class="box">{renderSliders(slidersTree.children)}</div>
+      <div class="box">
+        {renderSliders(sliders.children, (sliders) => {
+          setSliders({ children: sliders });
+        })}
+      </div>
     </Layout>
   );
 }
