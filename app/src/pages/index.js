@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import "../styles.scss";
 import { Layout, Slider } from "../components";
 import { useStaticQuery } from "gatsby";
@@ -98,11 +98,25 @@ export default function Index() {
   );
   const [openedSliders, setOpenedSliders] = useState({});
   const [sliders, setSliders] = useState(slidersTree);
-  // const [donationValues, setDonationValues] = useState({}); // of the form {CharityA: 0, etc.}
+  const [donations, setDonations] = useState({}); // of the form { CharityA: 0, ...}
 
-  // run calculations in a side-effect which updates the tree accordingly
-  // run calculations and setDonations, and also equalise the percentage sliders
-  // parent slider values increase all children equally
+  useEffect(() => {
+    // calculate donations
+    const donations = data.allCalculationsCsv.nodes.reduce(
+      (acc, { slider, charities }) => {
+        const obj = slider.reduce((obj, child) => obj.children[child], sliders);
+        for (let [charity, coeff] of Object.entries(charities)) {
+          acc[charity] = acc[charity] || 0; // default donation to 0
+          if (obj.metadata.unit !== "%") {
+            acc[charity] += obj.value * coeff;
+          }
+        }
+        return acc;
+      },
+      {}
+    );
+    setDonations(donations);
+  }, [sliders, data.allCalculationsCsv]);
 
   function renderSliders(sliders, setSliders) {
     return Object.entries(sliders).map(([name, properties]) => {
@@ -164,6 +178,26 @@ export default function Index() {
           setSliders({ children: sliders });
         })}
       </div>
+      <table class="table is-striped is-hoverable is-fullwidth">
+        <thead>
+          <tr>
+            <th>Charity</th>
+            <th>Donation</th>
+          </tr>
+        </thead>
+        <tbody>
+          {Object.entries(donations)
+            .sort((a, b) => b[1] - a[1])
+            .map(([charity, donation]) =>
+              donation ? (
+                <tr>
+                  <td>{charity}</td>
+                  <td>{donation}</td>
+                </tr>
+              ) : null
+            )}
+        </tbody>
+      </table>
     </Layout>
   );
 }
