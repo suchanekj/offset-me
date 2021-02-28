@@ -107,8 +107,20 @@ export default function Index() {
         const obj = slider.reduce((obj, child) => obj.children[child], sliders);
         for (let [charity, coeff] of Object.entries(charities)) {
           acc[charity] = acc[charity] || 0; // default donation to 0
+          let multiplier = coeff;
+          let childEntries = Object.entries(obj.children || {});
+          if (
+            childEntries.length > 0 &&
+            childEntries[0][1].metadata.unit === "%"
+          ) {
+            multiplier *= childEntries.reduce(
+              (acc, [_, { metadata, value }]) =>
+                acc + metadata.charities[charity] * value,
+              0
+            );
+          }
           if (obj.metadata.unit !== "%") {
-            acc[charity] += obj.value * coeff;
+            acc[charity] += Math.round(obj.value * multiplier);
           }
         }
         return acc;
