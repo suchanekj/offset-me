@@ -140,7 +140,8 @@ export default function Index() {
                   0
                 );
               }
-              acc[charity] += Math.round(obj.value * multiplier * 100) / 100;
+              acc[charity] += obj.value * multiplier;
+              acc[charity] = Math.round(acc[charity] * 100) / 100;
             }
           }
         return acc;
@@ -174,7 +175,7 @@ export default function Index() {
                     setProperty("value", Number(value));
                     // would like to run scaleSliders(value, this_slider.children, setSliders) !!!!!!!!!!!!!!!!!!!!!!!
                     // but I don't understand what "sliders" are here and hence how to get this_slider.children
-                    
+
                     // and also add the value change to the parent (all the way to the top)
                     // (or have ancestors update their values as sum of their children, those are equivalent)
                   }
@@ -210,7 +211,7 @@ export default function Index() {
 
   return (
     <Layout>
-      <div class="box">
+      <div class="box" id="offset-form">
         {renderSliders(sliders.children, (sliders) => {
           setSliders({ children: sliders });
         })}

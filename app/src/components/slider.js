@@ -5,13 +5,13 @@ export const Slider = ({ name, value, setValue, max, unit }) => {
     setValue(Number(e.target.value));
   };
   return (
-    <div class="columns is-vcentered">
-      <label for="slider" class="column is-1">
+    <div class="columns is-vcentered form-row">
+      <label for="slider" class="column form-text">
         {name}
       </label>
       <input
         id="slider"
-        class="column slider is-fullwidth is-circle"
+        class="column slider is-circle"
         type="range"
         step="1"
         min={0}
@@ -19,7 +19,7 @@ export const Slider = ({ name, value, setValue, max, unit }) => {
         value={value}
         onChange={handleChange}
       />
-      <output for="slider" class="column is-1">
+      <output for="slider" class="column form-value">
         {unit === "%" ? `${value.toFixed(1)} %` : `£ ${value}`}
       </output>
     </div>

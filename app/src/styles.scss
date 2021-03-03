@@ -12,3 +12,31 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
 @import "~@fortawesome/fontawesome-free/scss/fontawesome.scss";
 @import "~@fortawesome/fontawesome-free/scss/solid.scss";
 @import "~@fortawesome/fontawesome-free/scss/brands.scss";
+
+#offset-form {
+  width: 700px;
+  margin: 5% calc(50% - 350px);
+  text-align: center;
+}
+
+$slider-width: 45%;
+$form-value-width: 75px;
+
+.form-row {
+  width: 627px;
+  margin-right: auto;
+}
+
+.form-text {
+  flex: none;
+  width: calc(100% - #{$slider-width} - #{$form-value-width});
+  text-align: left;
+}
+.slider {
+  width: $slider-width;
+}
+
+.form-value {
+  flex: none;
+  width: $form-value-width;
+}
