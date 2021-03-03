@@ -28,6 +28,26 @@ function equaliseSliders(name, value, sliders, setSliders) {
   setSliders(newSliders);
 }
 
+function scaleSliders(value, sliders, setSliders) {
+  const sum = Object.entries(sliders).reduce(
+    (acc, [_, { value }]) => acc + Number(value),
+    0
+  );
+  const newSliders = Object.fromEntries(
+    Object.entries(sliders).map(([sliderName, properties]) => [
+      sliderName,
+      {
+        ...properties,
+        value:
+          sum === 0
+            ? value / sliders.length
+            : properties.value * value / sum,
+      },
+    ])
+  );
+  setSliders(newSliders);
+}
+
 export default function Index() {
   const data = useStaticQuery(graphql`
     query {
@@ -40,6 +60,7 @@ export default function Index() {
           max
           unit
           initialValue
+          calculateDonation
           charities {
             Malaria_Consortium
             Against_Malaria_Foundation
@@ -68,6 +89,7 @@ export default function Index() {
             Environmental_Working_Group
             Rainforest_alliance
             Sustainable_Food_Trust
+            OceanCleanup
           }
         }
       }
@@ -105,24 +127,22 @@ export default function Index() {
     const donations = data.allCalculationsCsv.nodes.reduce(
       (acc, { slider, charities }) => {
         const obj = slider.reduce((obj, child) => obj.children[child], sliders);
-        for (let [charity, coeff] of Object.entries(charities)) {
-          acc[charity] = acc[charity] || 0; // default donation to 0
-          let multiplier = coeff;
-          let childEntries = Object.entries(obj.children || {});
-          if (
-            childEntries.length > 0 &&
-            childEntries[0][1].metadata.unit === "%"
-          ) {
-            multiplier *= childEntries.reduce(
-              (acc, [_, { metadata, value }]) =>
-                acc + metadata.charities[charity] * value,
-              0
-            );
+
+          if (obj.metadata.calculateDonation === "value") {
+            for (let [charity, coeff] of Object.entries(charities)) {
+              acc[charity] = acc[charity] || 0; // default donation to 0
+              let multiplier = coeff;
+              let childEntries = Object.entries(obj.children || {});
+              if (childEntries.length > 0) {
+                multiplier = childEntries.reduce(
+                  (acc, [_, {metadata, value}]) =>
+                    acc + metadata.charities[charity] * value / 100,
+                  0
+                );
+              }
+              acc[charity] += Math.round(obj.value * multiplier * 100) / 100;
+            }
           }
-          if (obj.metadata.unit !== "%") {
-            acc[charity] += Math.round(obj.value * multiplier);
-          }
-        }
         return acc;
       },
       {}
@@ -152,6 +172,11 @@ export default function Index() {
                     equaliseSliders(name, value, sliders, setSliders);
                   } else {
                     setProperty("value", Number(value));
+                    // would like to run scaleSliders(value, this_slider.children, setSliders) !!!!!!!!!!!!!!!!!!!!!!!
+                    // but I don't understand what "sliders" are here and hence how to get this_slider.children
+                    
+                    // and also add the value change to the parent (all the way to the top)
+                    // (or have ancestors update their values as sum of their children, those are equivalent)
                   }
                 }}
                 {...metadata}
