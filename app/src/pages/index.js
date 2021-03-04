@@ -61,6 +61,7 @@ export default function Index() {
           unit
           initialValue
           calculateDonation
+          level
           charities {
             Malaria_Consortium
             Against_Malaria_Foundation
@@ -131,6 +132,7 @@ export default function Index() {
           if (obj.metadata.calculateDonation === "value") {
             for (let [charity, coeff] of Object.entries(charities)) {
               acc[charity] = acc[charity] || 0; // default donation to 0
+              acc["Overall montly donation"] = acc["Overall montly donation"] || 0; // default donation to 0
               let multiplier = coeff;
               let childEntries = Object.entries(obj.children || {});
               if (childEntries.length > 0) {
@@ -142,6 +144,8 @@ export default function Index() {
               }
               acc[charity] += obj.value * multiplier;
               acc[charity] = Math.round(acc[charity] * 100) / 100;
+              acc["Overall montly donation"] += obj.value * multiplier;
+              acc["Overall montly donation"] = Math.round(acc["Overall montly donation"] * 100) / 100;
             }
           }
         return acc;
@@ -164,7 +168,7 @@ export default function Index() {
       return (
         <>
           <div class="columns is-vcentered">
-            <div class="column">
+            <div class="column form-row">
               <Slider
                 name={name}
                 value={value}
@@ -211,31 +215,33 @@ export default function Index() {
 
   return (
     <Layout>
-      <div class="box" id="offset-form">
-        {renderSliders(sliders.children, (sliders) => {
-          setSliders({ children: sliders });
-        })}
+      <div class="container is-max-desktop">
+        <div class="box">
+          {renderSliders(sliders.children, (sliders) => {
+            setSliders({ children: sliders });
+          })}
+        </div>
+        <table class="table is-striped is-hoverable is-fullwidth">
+          <thead>
+            <tr>
+              <th>Charity</th>
+              <th>Donation</th>
+            </tr>
+          </thead>
+          <tbody>
+            {Object.entries(donations)
+              .sort((a, b) => b[1] - a[1])
+              .map(([charity, donation]) =>
+                donation ? (
+                  <tr>
+                    <td>{charity}</td>
+                    <td>{donation}</td>
+                  </tr>
+                ) : null
+              )}
+          </tbody>
+        </table>
       </div>
-      <table class="table is-striped is-hoverable is-fullwidth">
-        <thead>
-          <tr>
-            <th>Charity</th>
-            <th>Donation</th>
-          </tr>
-        </thead>
-        <tbody>
-          {Object.entries(donations)
-            .sort((a, b) => b[1] - a[1])
-            .map(([charity, donation]) =>
-              donation ? (
-                <tr>
-                  <td>{charity}</td>
-                  <td>{donation}</td>
-                </tr>
-              ) : null
-            )}
-        </tbody>
-      </table>
     </Layout>
   );
 }

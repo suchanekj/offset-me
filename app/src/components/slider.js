@@ -1,12 +1,12 @@
 import React from "react";
 
-export const Slider = ({ name, value, setValue, max, unit }) => {
+export const Slider = ({ name, value, setValue, max, unit, level }) => {
   const handleChange = (e) => {
     setValue(Number(e.target.value));
   };
   return (
-    <div class="columns is-vcentered form-row">
-      <label for="slider" class="column form-text">
+    <div class="columns is-vcentered">
+      <label for="slider" class={"column form-text form-level-" + String(level)}>
         {name}
       </label>
       <input

@@ -7,13 +7,14 @@ export function NavBar() {
   return (
     <nav class="navbar" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
-        <Link to="/" className="navbar-item">
-          <img
-            src="https://bulma.io/images/bulma-logo.png"
-            alt="logo"
-            width="112"
-            height="28"
-          />
+        <Link to="/" className="navbar-item button is-large is-outlined is-primary">
+          {/*<img*/}
+          {/*  src="https://bulma.io/images/bulma-logo.png"*/}
+          {/*  alt="logo"*/}
+          {/*  width="112"*/}
+          {/*  height="28"*/}
+          {/*/>*/}
+          Offset me!
         </Link>
         <a
           role="button"

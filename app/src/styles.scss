@@ -13,18 +13,21 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
 @import "~@fortawesome/fontawesome-free/scss/solid.scss";
 @import "~@fortawesome/fontawesome-free/scss/brands.scss";
 
-#offset-form {
-  width: 700px;
-  margin: 5% calc(50% - 350px);
-  text-align: center;
-}
-
 $slider-width: 45%;
 $form-value-width: 75px;
 
 .form-row {
-  width: 627px;
+  width: 90%;  // This should ideally be done differently but I don't know how
   margin-right: auto;
+  flex: none;
+}
+
+.form-level-1 {
+  padding-left: 5%;
+}
+
+.form-level-2 {
+  padding-left: 10%;
 }
 
 .form-text {
@@ -32,6 +35,7 @@ $form-value-width: 75px;
   width: calc(100% - #{$slider-width} - #{$form-value-width});
   text-align: left;
 }
+
 .slider {
   width: $slider-width;
 }

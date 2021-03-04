@@ -1,25 +1,25 @@
-﻿slider.0,slider.1,slider.3,low,mid,high,max,initialValue,unit,calculateDonation,charities.Malaria Consortium,charities.Against Malaria Foundation,charities.Deworm the World,charities.Helen Keller International,charities.New Incentives,charities.GiveDirectly,charities.The END Fund,charities.SCI Foundation,charities.Sightsavers,charities.Village Enterprise,charities.Seva,charities.JAAGO Foundation,charities.UNICEF south africa,charities.Lola Karimova-Tillyaeva,charities.Cambodian Children's Fund,charities.Plan vivo,charities.Gold Standard,charities.Founders Pledge Climate change fund,charities.Clean Air Task Force,charities.WILD Foundation,charities.Cool earth,charities.ACE's Recommended Charity Fund,charities.New Harvest,charities.Oceana,charities.Environmental Working Group,charities.Rainforest alliance,charities.Sustainable Food Trust,charities.OceanCleanup
-Planetary boundaries,,,4.368046083,15.55328803,32.33636269,50,0,£,ignore,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Planetary boundaries,Climate crisis,,2.642857143,11.10277569,18.12247863,30,0,£,value,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Planetary boundaries,Climate crisis,Nature based offsets,0,33.33333333,100,100,33,%,multiplier,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.3,0.1,0,0,0.2,0.2,0,0,0,0,0.2,0,0
-Planetary boundaries,Climate crisis,Reducing emissions,0,33.33333333,100,100,34,%,multiplier,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.6,0.2,0.2,0,0,0,0,0,0,0,0,0
-Planetary boundaries,Climate crisis,Sustainable technology R&D,0,33.33333333,50,100,33,%,multiplier,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.7,0.3,0,0,0,0,0,0,0,0,0
-Planetary boundaries,Nitrogen and phosphorus cycle,,0.243174421,0.486348843,1.528773594,2,0,£,value,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.2,0.25,0.1,0.2,0,0.25,0
-Planetary boundaries,Freshwater use,,0.143553116,0.287106232,0.574212464,2,0,£,value,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.3,0.2,0,0.1,0,0.4,0
-Planetary boundaries,Deforestation and other land changes,,0.944291906,2.384241398,6.934354508,10,0,£,ignore,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Planetary boundaries,Deforestation and other land changes,Primary forest loss,0.238625711,0.566736063,2.266944251,4,0,£,value,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.1,0.3,0.1,0.1,0,0,0.4,0,0
-Planetary boundaries,Deforestation and other land changes,Secondary forest loss,0.650652771,1.301305542,2.602611084,4,0,£,value,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.9,0.1,0,0,0,0,0,0,0,0,0,0,0
-Planetary boundaries,Deforestation and other land changes,Other land changes,0.055013425,0.516199793,2.064799173,4,0,£,value,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.4,0,0.2,0.2,0.2,0,0,0,0
-Planetary boundaries,Biodiversity loss,,0.109658865,0.409608115,1.228824344,2,0,£,value,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.4,0,0,0,0.4,0,0.2,0,0
-Planetary boundaries,Chemical pollution,,0.284510631,0.883207747,3.947719153,7,0,£,ignore,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Planetary boundaries,Chemical pollution,Plastics,0.240969611,0.530041695,2.273808826,3,0,£,value,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.2,0,0.1,0.7
-Planetary boundaries,Chemical pollution,Persistent organic pollutants,0.011288413,0.030639977,0.061279954,0.8,0,£,value,0.5,0.5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-Planetary boundaries,Chemical pollution,Other pollutants,0.032252607,0.322526075,1.612630373,3,0,£,value,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.7,0,0.3,0
-Human rights violations,,,0.977496373,4.191092027,16.42392621,20,0,£,ignore,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Human rights violations,Poverty labour,,0.977496373,4.191092027,16.42392621,20,0,£,value,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Human rights violations,Poverty labour,Correct country distribution,0,40,100,100,40,%,multiplier,0.025337838,0.033783784,0.143581081,0.059121622,0.054898649,0.016891892,0.025337838,0.04222973,0.118243243,0.016891892,0.067567568,0.15625,0.15625,0.059121622,0.024493243,0,0,0,0,0,0,0,0,0,0,0,0,0
-Human rights violations,Poverty labour,Most needing people,0,40,100,100,40,%,multiplier,0.090909091,0.090909091,0.090909091,0.090909091,0.090909091,0.090909091,0.090909091,0.090909091,0.090909091,0.090909091,0.090909091,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-Human rights violations,Poverty labour,Direct donations,0,20,100,100,20,%,multiplier,0,0,0,0,0,0.5,0,0,0,0.5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-Animal welfare damage,,,0.083333333,0.166666667,1.666666667,3,0,£,ignore,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Animal welfare damage,Wildlife,,0.041666667,0.083333333,0.833333333,1,0,£,value,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.3,0,0.1,0.1,0.2,0,0.3,0,0
-Animal welfare damage,Farm animals,,0.041666667,0.083333333,0.833333333,1,0,£,value,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.5,0.5,0,0,0,0,0
+﻿slider.0,slider.1,slider.3,low,mid,high,max,initialValue,unit,calculateDonation,level,charities.Malaria Consortium,charities.Against Malaria Foundation,charities.Deworm the World,charities.Helen Keller International,charities.New Incentives,charities.GiveDirectly,charities.The END Fund,charities.SCI Foundation,charities.Sightsavers,charities.Village Enterprise,charities.Seva,charities.JAAGO Foundation,charities.UNICEF south africa,charities.Lola Karimova-Tillyaeva,charities.Cambodian Children's Fund,charities.Plan vivo,charities.Gold Standard,charities.Founders Pledge Climate change fund,charities.Clean Air Task Force,charities.WILD Foundation,charities.Cool earth,charities.ACE's Recommended Charity Fund,charities.New Harvest,charities.Oceana,charities.Environmental Working Group,charities.Rainforest alliance,charities.Sustainable Food Trust,charities.OceanCleanup
+Planetary boundaries,,,4.368046083,15.55328803,32.33636269,50,0,£,ignore,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+Planetary boundaries,Climate crisis,,2.642857143,11.10277569,18.12247863,30,0,£,value,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+Planetary boundaries,Climate crisis,Nature based offsets,0,33.33333333,100,100,33,%,multiplier,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.3,0.1,0,0,0.2,0.2,0,0,0,0,0.2,0,0
+Planetary boundaries,Climate crisis,Reducing emissions,0,33.33333333,100,100,34,%,multiplier,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.6,0.2,0.2,0,0,0,0,0,0,0,0,0
+Planetary boundaries,Climate crisis,Sustainable technology R&D,0,33.33333333,50,100,33,%,multiplier,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.7,0.3,0,0,0,0,0,0,0,0,0
+Planetary boundaries,Nitrogen and phosphorus cycle,,0.243174421,0.486348843,1.528773594,2,0,£,value,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.2,0.25,0.1,0.2,0,0.25,0
+Planetary boundaries,Freshwater use,,0.143553116,0.287106232,0.574212464,2,0,£,value,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.3,0.2,0,0.1,0,0.4,0
+Planetary boundaries,Deforestation and other land changes,,0.944291906,2.384241398,6.934354508,10,0,£,ignore,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+Planetary boundaries,Deforestation and other land changes,Primary forest loss,0.238625711,0.566736063,2.266944251,4,0,£,value,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.1,0.3,0.1,0.1,0,0,0.4,0,0
+Planetary boundaries,Deforestation and other land changes,Secondary forest loss,0.650652771,1.301305542,2.602611084,4,0,£,value,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.9,0.1,0,0,0,0,0,0,0,0,0,0,0
+Planetary boundaries,Deforestation and other land changes,Other land changes,0.055013425,0.516199793,2.064799173,4,0,£,value,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.4,0,0.2,0.2,0.2,0,0,0,0
+Planetary boundaries,Biodiversity loss,,0.109658865,0.409608115,1.228824344,2,0,£,value,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.4,0,0,0,0.4,0,0.2,0,0
+Planetary boundaries,Chemical pollution,,0.284510631,0.883207747,3.947719153,7,0,£,ignore,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+Planetary boundaries,Chemical pollution,Plastics,0.240969611,0.530041695,2.273808826,3,0,£,value,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.2,0,0.1,0.7
+Planetary boundaries,Chemical pollution,Persistent organic pollutants,0.011288413,0.030639977,0.061279954,0.8,0,£,value,2,0.5,0.5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Planetary boundaries,Chemical pollution,Other pollutants,0.032252607,0.322526075,1.612630373,3,0,£,value,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.7,0,0.3,0
+Human rights violations,,,0.977496373,4.191092027,16.42392621,20,0,£,ignore,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+Human rights violations,Poverty labour,,0.977496373,4.191092027,16.42392621,20,0,£,value,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+Human rights violations,Poverty labour,Correct country distribution,0,40,100,100,40,%,multiplier,2,0.025337838,0.033783784,0.143581081,0.059121622,0.054898649,0.016891892,0.025337838,0.04222973,0.118243243,0.016891892,0.067567568,0.15625,0.15625,0.059121622,0.024493243,0,0,0,0,0,0,0,0,0,0,0,0,0
+Human rights violations,Poverty labour,Most needing people,0,40,100,100,40,%,multiplier,2,0.090909091,0.090909091,0.090909091,0.090909091,0.090909091,0.090909091,0.090909091,0.090909091,0.090909091,0.090909091,0.090909091,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Human rights violations,Poverty labour,Direct donations,0,20,100,100,20,%,multiplier,2,0,0,0,0,0,0.5,0,0,0,0.5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Animal welfare damage,,,0.083333333,0.166666667,1.666666667,3,0,£,ignore,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+Animal welfare damage,Wildlife,,0.041666667,0.083333333,0.833333333,1,0,£,value,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.3,0,0.1,0.1,0.2,0,0.3,0,0
+Animal welfare damage,Farm animals,,0.041666667,0.083333333,0.833333333,1,0,£,value,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.5,0.5,0,0,0,0,0
