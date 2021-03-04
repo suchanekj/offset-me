@@ -13,7 +13,7 @@ export const Slider = ({ name, value, setValue, max, unit, level }) => {
         id="slider"
         class="column slider is-circle"
         type="range"
-        step="1"
+        step="0.01"
         min={0}
         max={max}
         value={value}
