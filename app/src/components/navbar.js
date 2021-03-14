@@ -29,11 +29,17 @@ export function NavBar() {
       </div>
       <div class={`navbar-menu ${isActive && "is-active"}`}>
         <div class="navbar-start">
-          <Link to="/about" className="navbar-item">
-            About
+          <Link to="/" className="navbar-item">
+            Donate
+          </Link>
+          <Link to="/stats" className="navbar-item">
+            Stats
           </Link>
           <Link to="/news" className="navbar-item">
             News
+          </Link>
+          <Link to="/about" className="navbar-item">
+            About
           </Link>
         </div>
       </div>

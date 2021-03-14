@@ -15,9 +15,13 @@
     "clean": "gatsby clean"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.2",
     "bulma": "^0.9.2",
+    "bulma-slider": "^2.0.4",
     "gatsby": "^2.26.1",
     "gatsby-plugin-sass": "^3.1.0",
+    "gatsby-source-filesystem": "^2.11.0",
+    "gatsby-transformer-csv": "^2.10.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "sass": "^1.32.5"
