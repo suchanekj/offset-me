@@ -14,13 +14,7 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
 @import "~@fortawesome/fontawesome-free/scss/brands.scss";
 
 $slider-width: 45%;
-$form-value-width: 75px;
-
-.form-row {
-  width: 90%;  // This should ideally be done differently but I don't know how
-  margin-right: auto;
-  flex: none;
-}
+$form-value-width: 120px;
 
 .form-level-1 {
   padding-left: 5%;

@@ -39,9 +39,7 @@ function scaleSliders(value, sliders, setSliders) {
       {
         ...properties,
         value:
-          sum === 0
-            ? value / sliders.length
-            : properties.value * value / sum,
+          sum === 0 ? value / sliders.length : (properties.value * value) / sum,
       },
     ])
   );
@@ -129,25 +127,27 @@ export default function Index() {
       (acc, { slider, charities }) => {
         const obj = slider.reduce((obj, child) => obj.children[child], sliders);
 
-          if (obj.metadata.calculateDonation === "value") {
-            for (let [charity, coeff] of Object.entries(charities)) {
-              acc[charity] = acc[charity] || 0; // default donation to 0
-              acc["Overall montly donation"] = acc["Overall montly donation"] || 0; // default donation to 0
-              let multiplier = coeff;
-              let childEntries = Object.entries(obj.children || {});
-              if (childEntries.length > 0) {
-                multiplier = childEntries.reduce(
-                  (acc, [_, {metadata, value}]) =>
-                    acc + metadata.charities[charity] * value / 100,
-                  0
-                );
-              }
-              acc[charity] += obj.value * multiplier;
-              acc[charity] = Math.round(acc[charity] * 100) / 100;
-              acc["Overall montly donation"] += obj.value * multiplier;
-              acc["Overall montly donation"] = Math.round(acc["Overall montly donation"] * 100) / 100;
+        if (obj.metadata.calculateDonation === "value") {
+          for (let [charity, coeff] of Object.entries(charities)) {
+            acc[charity] = acc[charity] || 0; // default donation to 0
+            acc["Overall montly donation"] =
+              acc["Overall montly donation"] || 0; // default donation to 0
+            let multiplier = coeff;
+            let childEntries = Object.entries(obj.children || {});
+            if (childEntries.length > 0) {
+              multiplier = childEntries.reduce(
+                (acc, [_, { metadata, value }]) =>
+                  acc + (metadata.charities[charity] * value) / 100,
+                0
+              );
             }
+            acc[charity] += obj.value * multiplier;
+            acc[charity] = Math.round(acc[charity] * 100) / 100;
+            acc["Overall montly donation"] += obj.value * multiplier;
+            acc["Overall montly donation"] =
+              Math.round(acc["Overall montly donation"] * 100) / 100;
           }
+        }
         return acc;
       },
       {}
