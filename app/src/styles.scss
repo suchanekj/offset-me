@@ -42,7 +42,8 @@ $form-value-width: 90px;
 
 .slider {
   width: 100%;
-  margin-bottom: 0;
+  margin-bottom: 0 !important;
+  padding-bottom: 6px;
 }
 
 .slider-marks {
@@ -62,4 +63,16 @@ $form-value-width: 90px;
 .form-value {
   flex: none;
   width: $form-value-width;
+}
+
+body {
+  background-image: url("images/background.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+}
+
+html {
+  background: none;
 }

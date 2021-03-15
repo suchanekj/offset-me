@@ -215,12 +215,12 @@ export default function Index() {
 
   return (
     <Layout>
-      <div class="container is-max-desktop">
-        <div class="box">
-          {renderSliders(sliders.children, (sliders) => {
-            setSliders({ children: sliders });
-          })}
-        </div>
+      <div class="box">
+        {renderSliders(sliders.children, (sliders) => {
+          setSliders({ children: sliders });
+        })}
+      </div>
+      <div className="box">
         <table class="table is-striped is-hoverable is-fullwidth">
           <thead>
             <tr>
@@ -234,8 +234,8 @@ export default function Index() {
               .map(([charity, donation]) =>
                 donation ? (
                   <tr>
-                    <td>{charity}</td>
-                    <td>{donation}</td>
+                    <td>{charity === "Overall montly donation" ? <b>Overall montly donation</b> : charity}</td>
+                    <td>{charity === "Overall montly donation" ? <b>{donation}</b> : donation}</td>
                   </tr>
                 ) : null
               )}

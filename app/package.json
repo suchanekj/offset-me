@@ -25,5 +25,8 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "sass": "^1.32.5"
+  },
+  "devDependencies": {
+    "html-loader": "^2.1.2"
   }
 }
