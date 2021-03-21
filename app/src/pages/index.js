@@ -1,49 +1,24 @@
 import React, { useState, useMemo, useEffect } from "react";
+import { fromJS } from "immutable";
+
 import "../styles.scss";
 import { Layout, Slider } from "../components";
 import { useStaticQuery } from "gatsby";
 
-function equaliseSliders(name, value, sliders, setSliders) {
-  const sum = Object.entries(sliders).reduce(
-    (acc, [_, { value }]) => acc + Number(value),
-    0
-  );
-  const currentTotalOfOtherSliders = sum - sliders[name].value;
-  const whatItNeedsToBe = 100 - value;
-  const multiplier = whatItNeedsToBe / currentTotalOfOtherSliders;
-  const newSliders = Object.fromEntries(
-    Object.entries(sliders).map(([sliderName, properties]) => [
-      sliderName,
-      {
-        ...properties,
-        value:
-          sliderName === name
-            ? value
-            : properties.value === 0
-            ? 1
-            : properties.value * multiplier,
-      },
-    ])
-  );
-  setSliders(newSliders);
+function createKeyPath(path, property) {
+  const keyPath = path.reduce((acc, element) => {
+    acc.push("children", element);
+    return acc;
+  }, []);
+  keyPath.push(property);
+  return keyPath;
 }
 
-function scaleSliders(value, sliders, setSliders) {
-  const sum = Object.entries(sliders).reduce(
-    (acc, [_, { value }]) => acc + Number(value),
-    0
-  );
-  const newSliders = Object.fromEntries(
-    Object.entries(sliders).map(([sliderName, properties]) => [
-      sliderName,
-      {
-        ...properties,
-        value:
-          sum === 0 ? value / sliders.length : (properties.value * value) / sum,
-      },
-    ])
-  );
-  setSliders(newSliders);
+function getValue(tree, path, property, value) {
+  return tree.getIn(createKeyPath(path, property), value);
+}
+function insertValue(tree, path, property, value) {
+  return tree.setIn(createKeyPath(path, property), value);
 }
 
 export default function Index() {
@@ -111,6 +86,7 @@ export default function Index() {
           }
           obj.metadata = metadata;
           obj.value = Number(initialValue);
+          obj.path = slider;
           return acc;
         },
         {}
@@ -118,14 +94,91 @@ export default function Index() {
     [data]
   );
   const [openedSliders, setOpenedSliders] = useState({});
-  const [sliders, setSliders] = useState(slidersTree);
+  const [sliders, setSliders] = useState(fromJS(slidersTree));
   const [donations, setDonations] = useState({}); // of the form { CharityA: 0, ...}
+
+  function equaliseSliders(currentName, newValue, siblings) {
+    const currentSum = Object.entries(siblings).reduce(
+      (acc, [_, { value }]) => acc + Number(value),
+      0
+    );
+    const currentTotalOfOtherSliders = currentSum - siblings[currentName].value;
+    const whatItNeedsToBe = 100 - newValue;
+    const multiplier = whatItNeedsToBe / currentTotalOfOtherSliders;
+    setSliders((sliders) =>
+      Object.entries(siblings).reduce((tree, [name, { value, path }]) => {
+        const equalisedValue =
+          currentName === name
+            ? newValue
+            : value === 0
+            ? 1
+            : value * multiplier;
+        return insertValue(tree, path, "value", equalisedValue);
+      }, sliders)
+    );
+  }
+
+  function scaleChildren(tree, children_to_change, newValue) {
+    if (children_to_change) {
+      const childrenEntries = Object.entries(children_to_change);
+      const currentSumOfChildren = childrenEntries.reduce(
+        (acc, [_, { value }]) => acc + Number(value),
+        0
+      );
+      const multiplier = newValue / currentSumOfChildren;
+
+      for (let [_, { value, metadata, path, children }] of childrenEntries) {
+        if (metadata.unit === "£") {
+          let newChildValue = value === 0 ? 0.01 : value * multiplier;
+          if (newChildValue > Number(metadata.max)) {
+            newChildValue = Number(metadata.max);
+            newValue = newValue - newChildValue;
+          }
+          tree = insertValue(tree, path, "value", newChildValue);
+          tree = scaleChildren(tree, children, newChildValue);
+        }
+      }
+    }
+
+    return tree;
+  }
+
+  function scaleSliders(newValue, path, children) {
+    const parentPath = path.slice(0, path.length - 1);
+
+    setSliders((sliders) => {
+      let tree = sliders;
+
+      const oldValue = getValue(tree, path, "value");
+      const difference = newValue - oldValue;
+
+      // scale parent slider
+      const oldParentValue = getValue(tree, parentPath, "value");
+      const newParentValue = Number(oldParentValue + difference);
+      tree = insertValue(tree, parentPath, "value", newParentValue);
+
+      // scale grandparent slider
+      const grandparentPath = path.slice(0, path.length - 2);
+      const oldGrandparentValue = getValue(tree, grandparentPath, "value");
+      const newGrandparentValue = Number(oldGrandparentValue + difference);
+      tree = insertValue(tree, grandparentPath, "value", newGrandparentValue);
+
+      // scale children sliders
+      tree = scaleChildren(tree, children, newValue);
+
+      // set value
+      return insertValue(tree, path, "value", newValue);
+    });
+  }
 
   useEffect(() => {
     // calculate donations
     const donations = data.allCalculationsCsv.nodes.reduce(
       (acc, { slider, charities }) => {
-        const obj = slider.reduce((obj, child) => obj.children[child], sliders);
+        const obj = slider.reduce(
+          (obj, child) => obj.children[child],
+          sliders.toJS()
+        );
 
         if (obj.metadata.calculateDonation === "value") {
           for (let [charity, coeff] of Object.entries(charities)) {
@@ -155,16 +208,10 @@ export default function Index() {
     setDonations(donations);
   }, [sliders, data.allCalculationsCsv]);
 
-  function renderSliders(sliders, setSliders) {
+  function renderSliders(sliders) {
     return Object.entries(sliders).map(([name, properties]) => {
-      const { value, metadata, children } = properties;
+      const { value, metadata, path, children } = properties;
       const isOpen = Boolean(openedSliders[name]);
-      const setProperty = (property, value) =>
-        setSliders({
-          ...sliders,
-          [name]: { ...properties, [property]: value },
-        });
-
       return (
         <>
           <div class="columns is-vcentered">
@@ -174,14 +221,9 @@ export default function Index() {
                 value={value}
                 setValue={(value) => {
                   if (metadata.unit === "%") {
-                    equaliseSliders(name, value, sliders, setSliders);
+                    equaliseSliders(name, value, sliders);
                   } else {
-                    setProperty("value", Number(value));
-                    // would like to run scaleSliders(value, this_slider.children, setSliders) !!!!!!!!!!!!!!!!!!!!!!!
-                    // but I don't understand what "sliders" are here and hence how to get this_slider.children
-
-                    // and also add the value change to the parent (all the way to the top)
-                    // (or have ancestors update their values as sum of their children, those are equivalent)
+                    scaleSliders(value, path, children);
                   }
                 }}
                 {...metadata}
@@ -203,11 +245,7 @@ export default function Index() {
               </span>
             ) : null}
           </div>
-          {isOpen
-            ? renderSliders(children, (sliders) =>
-                setProperty("children", sliders)
-              )
-            : null}
+          {isOpen ? renderSliders(children) : null}
         </>
       );
     });
@@ -215,11 +253,7 @@ export default function Index() {
 
   return (
     <Layout>
-      <div class="box">
-        {renderSliders(sliders.children, (sliders) => {
-          setSliders({ children: sliders });
-        })}
-      </div>
+      <div class="box">{renderSliders(sliders.toJS().children)}</div>
       <div className="box">
         <table class="table is-striped is-hoverable is-fullwidth">
           <thead>
@@ -234,8 +268,20 @@ export default function Index() {
               .map(([charity, donation]) =>
                 donation ? (
                   <tr>
-                    <td>{charity === "Overall montly donation" ? <b>Overall montly donation</b> : charity}</td>
-                    <td>{charity === "Overall montly donation" ? <b>{donation}</b> : donation}</td>
+                    <td>
+                      {charity === "Overall montly donation" ? (
+                        <b>Overall montly donation</b>
+                      ) : (
+                        charity
+                      )}
+                    </td>
+                    <td>
+                      {charity === "Overall montly donation" ? (
+                        <b>{donation}</b>
+                      ) : (
+                        donation
+                      )}
+                    </td>
                   </tr>
                 ) : null
               )}
