@@ -118,9 +118,9 @@ export default function Index() {
     );
   }
 
-  function scaleChildren(tree, children, newValue) {
-    if (children) {
-      const childrenEntries = Object.entries(children);
+  function scaleChildren(tree, children_to_change, newValue) {
+    if (children_to_change) {
+      const childrenEntries = Object.entries(children_to_change);
       const currentSumOfChildren = childrenEntries.reduce(
         (acc, [_, { value }]) => acc + Number(value),
         0
@@ -129,7 +129,11 @@ export default function Index() {
 
       for (let [_, { value, metadata, path, children }] of childrenEntries) {
         if (metadata.unit === "£") {
-          const newChildValue = value === 0 ? 0.01 : value * multiplier;
+          let newChildValue = value === 0 ? 0.01 : value * multiplier;
+          if (newChildValue > Number(metadata.max)) {
+            newChildValue = Number(metadata.max);
+            newValue = newValue - newChildValue;
+          }
           tree = insertValue(tree, path, "value", newChildValue);
           tree = scaleChildren(tree, children, newChildValue);
         }
@@ -152,6 +156,12 @@ export default function Index() {
       const oldParentValue = getValue(tree, parentPath, "value");
       const newParentValue = Number(oldParentValue + difference);
       tree = insertValue(tree, parentPath, "value", newParentValue);
+
+      // scale grandparent slider
+      const grandparentPath = path.slice(0, path.length - 2);
+      const oldGrandparentValue = getValue(tree, grandparentPath, "value");
+      const newGrandparentValue = Number(oldGrandparentValue + difference);
+      tree = insertValue(tree, grandparentPath, "value", newGrandparentValue);
 
       // scale children sliders
       tree = scaleChildren(tree, children, newValue);
