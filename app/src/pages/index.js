@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect } from "react";
 import { fromJS } from "immutable";
 
 import "../styles.scss";
-import { Layout, Slider } from "../components";
+import { Layout, PayPalButton, Slider } from "../components";
 import { useStaticQuery } from "gatsby";
 
 function createKeyPath(path, property) {
@@ -254,6 +254,7 @@ export default function Index() {
   return (
     <Layout>
       <div class="box">{renderSliders(sliders.toJS().children)}</div>
+      <PayPalButton />
       <div className="box">
         <table class="table is-striped is-hoverable is-fullwidth">
           <thead>
