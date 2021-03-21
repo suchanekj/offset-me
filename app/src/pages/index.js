@@ -127,15 +127,29 @@ export default function Index() {
       );
       const multiplier = newValue / currentSumOfChildren;
 
-      for (let [_, { value, metadata, path, children }] of childrenEntries) {
+      let finished = true;
+      for (let [x, { value, metadata, path, children }] of childrenEntries) {
         if (metadata.unit === "£") {
           let newChildValue = value === 0 ? 0.01 : value * multiplier;
-          if (newChildValue > Number(metadata.max)) {
+          if (newChildValue >= Number(metadata.max)) {
             newChildValue = Number(metadata.max);
             newValue = newValue - newChildValue;
+            delete children_to_change[x];
+            finished = false;
           }
           tree = insertValue(tree, path, "value", newChildValue);
-          tree = scaleChildren(tree, children, newChildValue);
+          if (newChildValue === Number(metadata.max)) {
+            tree = scaleChildren(tree, children, value);
+          }
+        }
+      }
+      if (finished === false) {
+        tree = scaleChildren(tree, children_to_change, newValue);
+      } else {
+        for (let [x, { value, metadata, path, children }] of childrenEntries) {
+          if (metadata.unit === "£") {
+            tree = scaleChildren(tree, children, value);
+          }
         }
       }
     }
@@ -171,7 +185,7 @@ export default function Index() {
     });
   }
 
-  useEffect(() => {
+  function updateDonations() {
     // calculate donations
     const donations = data.allCalculationsCsv.nodes.reduce(
       (acc, { slider, charities }) => {
@@ -206,7 +220,44 @@ export default function Index() {
       {}
     );
     setDonations(donations);
-  }, [sliders, data.allCalculationsCsv]);
+  }
+
+  // useEffect(() => {
+  //   // calculate donations
+  //   const donations = data.allCalculationsCsv.nodes.reduce(
+  //     (acc, { slider, charities }) => {
+  //       const obj = slider.reduce(
+  //         (obj, child) => obj.children[child],
+  //         sliders.toJS()
+  //       );
+  //
+  //       if (obj.metadata.calculateDonation === "value") {
+  //         for (let [charity, coeff] of Object.entries(charities)) {
+  //           acc[charity] = acc[charity] || 0; // default donation to 0
+  //           acc["Overall montly donation"] =
+  //             acc["Overall montly donation"] || 0; // default donation to 0
+  //           let multiplier = coeff;
+  //           let childEntries = Object.entries(obj.children || {});
+  //           if (childEntries.length > 0) {
+  //             multiplier = childEntries.reduce(
+  //               (acc, [_, { metadata, value }]) =>
+  //                 acc + (metadata.charities[charity] * value) / 100,
+  //               0
+  //             );
+  //           }
+  //           acc[charity] += obj.value * multiplier;
+  //           acc[charity] = Math.round(acc[charity] * 100) / 100;
+  //           acc["Overall montly donation"] += obj.value * multiplier;
+  //           acc["Overall montly donation"] =
+  //             Math.round(acc["Overall montly donation"] * 100) / 100;
+  //         }
+  //       }
+  //       return acc;
+  //     },
+  //     {}
+  //   );
+  //   setDonations(donations);
+  // }, [sliders, data.allCalculationsCsv]);
 
   function renderSliders(sliders) {
     return Object.entries(sliders).map(([name, properties]) => {
@@ -225,6 +276,7 @@ export default function Index() {
                   } else {
                     scaleSliders(value, path, children);
                   }
+                  updateDonations();
                 }}
                 {...metadata}
               />
