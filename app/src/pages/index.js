@@ -217,43 +217,6 @@ export default function Index() {
     setDonations(donations);
   }
 
-  // useEffect(() => {
-  //   // calculate donations
-  //   const donations = data.allCalculationsCsv.nodes.reduce(
-  //     (acc, { slider, charities }) => {
-  //       const obj = slider.reduce(
-  //         (obj, child) => obj.children[child],
-  //         sliders.toJS()
-  //       );
-  //
-  //       if (obj.metadata.calculateDonation === "value") {
-  //         for (let [charity, coeff] of Object.entries(charities)) {
-  //           acc[charity] = acc[charity] || 0; // default donation to 0
-  //           acc["Overall montly donation"] =
-  //             acc["Overall montly donation"] || 0; // default donation to 0
-  //           let multiplier = coeff;
-  //           let childEntries = Object.entries(obj.children || {});
-  //           if (childEntries.length > 0) {
-  //             multiplier = childEntries.reduce(
-  //               (acc, [_, { metadata, value }]) =>
-  //                 acc + (metadata.charities[charity] * value) / 100,
-  //               0
-  //             );
-  //           }
-  //           acc[charity] += obj.value * multiplier;
-  //           acc[charity] = Math.round(acc[charity] * 100) / 100;
-  //           acc["Overall montly donation"] += obj.value * multiplier;
-  //           acc["Overall montly donation"] =
-  //             Math.round(acc["Overall montly donation"] * 100) / 100;
-  //         }
-  //       }
-  //       return acc;
-  //     },
-  //     {}
-  //   );
-  //   setDonations(donations);
-  // }, [sliders, data.allCalculationsCsv]);
-
   function renderSliders(sliders) {
     return Object.entries(sliders).map(([name, properties]) => {
       const { value, metadata, path, children } = properties;
@@ -312,7 +275,7 @@ export default function Index() {
           <thead>
             <tr>
               <th>Charity</th>
-              <th>Donation</th>
+              <th>Monthly</th>
             </tr>
           </thead>
           <tbody>
@@ -321,7 +284,7 @@ export default function Index() {
                 <b>Overall monthly donation</b>
               </td>
               <td>
-                <b>{total.toFixed(2)}</b>
+                <b>£{total.toFixed(2)}</b>
               </td>
             </tr>
             {Object.entries(donations)
@@ -330,7 +293,7 @@ export default function Index() {
                 donation ? (
                   <tr>
                     <td>{charity}</td>
-                    <td>{donation.toFixed(2)}</td>
+                    <td>£{donation.toFixed(2)}</td>
                   </tr>
                 ) : null
               )}
