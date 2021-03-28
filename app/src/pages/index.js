@@ -255,7 +255,6 @@ export default function Index() {
   return (
     <Layout>
       <div class="box">{renderSliders(sliders.toJS().children)}</div>
-      <PayPalButton />
       <div className="box">
         <table class="table is-striped is-hoverable is-fullwidth">
           <thead>
@@ -286,6 +285,7 @@ export default function Index() {
           </tbody>
         </table>
       </div>
+      <PayPalButton items={Object.entries(donations)} />
     </Layout>
   );
 }
