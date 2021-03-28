@@ -183,8 +183,6 @@ export default function Index() {
         if (obj.metadata.calculateDonation === "value") {
           for (let [charity, coeff] of Object.entries(charities)) {
             acc[charity] = acc[charity] || 0; // default donation to 0
-            acc["Overall montly donation"] =
-              acc["Overall montly donation"] || 0; // default donation to 0
             let multiplier = coeff;
             let childEntries = Object.entries(obj.children || {});
             if (childEntries.length > 0) {
@@ -196,9 +194,6 @@ export default function Index() {
             }
             acc[charity] += obj.value * multiplier;
             acc[charity] = Math.round(acc[charity] * 100) / 100;
-            acc["Overall montly donation"] += obj.value * multiplier;
-            acc["Overall montly donation"] =
-              Math.round(acc["Overall montly donation"] * 100) / 100;
           }
         }
         return acc;
@@ -251,6 +246,12 @@ export default function Index() {
     });
   }
 
+  const total =
+    Math.round(
+      Object.entries(donations).reduce((acc, [_, value]) => acc + value, 0) *
+        100
+    ) / 100;
+
   return (
     <Layout>
       <div class="box">{renderSliders(sliders.toJS().children)}</div>
@@ -264,25 +265,21 @@ export default function Index() {
             </tr>
           </thead>
           <tbody>
+            <tr>
+              <td>
+                <b>Overall monthly donation</b>
+              </td>
+              <td>
+                <b>{total.toFixed(2)}</b>
+              </td>
+            </tr>
             {Object.entries(donations)
               .sort((a, b) => b[1] - a[1])
               .map(([charity, donation]) =>
                 donation ? (
                   <tr>
-                    <td>
-                      {charity === "Overall montly donation" ? (
-                        <b>Overall montly donation</b>
-                      ) : (
-                        charity
-                      )}
-                    </td>
-                    <td>
-                      {charity === "Overall montly donation" ? (
-                        <b>{donation}</b>
-                      ) : (
-                        donation
-                      )}
-                    </td>
+                    <td>{charity}</td>
+                    <td>{donation.toFixed(2)}</td>
                   </tr>
                 ) : null
               )}
