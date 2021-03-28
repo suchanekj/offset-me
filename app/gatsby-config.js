@@ -17,5 +17,12 @@ module.exports = {
         ignoreEmpty: true,
       },
     },
+    {
+      resolve: `gatsby-plugin-paypal`,
+      options: {
+        clientId: `AQiyCnJccT4VDYRHoHsLIQea8gDOxxK2BZ33LCIlAm4LgUcEu5NEsfz_YsPJsqFT2kr0KiIcvIyHBANa`,
+        currency: `GBP`,
+      },
+    },
   ],
 };
