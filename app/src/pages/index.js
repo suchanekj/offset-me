@@ -120,6 +120,7 @@ export default function Index() {
 
   function scaleChildren(tree, children_to_change, newValue) {
     if (children_to_change) {
+      console.log(children_to_change, newValue, Object.keys(children_to_change).length)
       const childrenEntries = Object.entries(children_to_change);
       const currentSumOfChildren = childrenEntries.reduce(
         (acc, [_, { value }]) => acc + Number(value),
@@ -130,7 +131,8 @@ export default function Index() {
       let finished = true;
       for (let [x, { value, metadata, path, children }] of childrenEntries) {
         if (metadata.unit === "£") {
-          let newChildValue = value === 0 ? 0.01 : value * multiplier;
+          let newChildValue = currentSumOfChildren === 0 ? newValue / Object.keys(children_to_change).length
+                                                         : value * multiplier;
           if (newChildValue >= Number(metadata.max)) {
             newChildValue = Number(metadata.max);
             newValue = newValue - newChildValue;
@@ -138,8 +140,9 @@ export default function Index() {
             finished = false;
           }
           tree = insertValue(tree, path, "value", newChildValue);
+          // tree = scaleChildren(tree, children, value);
           if (newChildValue === Number(metadata.max)) {
-            tree = scaleChildren(tree, children, value);
+            tree = scaleChildren(tree, children, newChildValue);
           }
         }
       }
@@ -148,7 +151,8 @@ export default function Index() {
       } else {
         for (let [x, { value, metadata, path, children }] of childrenEntries) {
           if (metadata.unit === "£") {
-            tree = scaleChildren(tree, children, value);
+            let newChildValue = value === 0 ? 0.01 : value * multiplier;
+            tree = scaleChildren(tree, children, newChildValue);
           }
         }
       }
@@ -185,7 +189,7 @@ export default function Index() {
     });
   }
 
-  function updateDonations() {
+  useEffect(() => {
     // calculate donations
     const donations = data.allCalculationsCsv.nodes.reduce(
       (acc, { slider, charities }) => {
@@ -215,7 +219,7 @@ export default function Index() {
       {}
     );
     setDonations(donations);
-  }
+  }, [sliders, data.allCalculationsCsv]);
 
   function renderSliders(sliders) {
     return Object.entries(sliders).map(([name, properties]) => {
@@ -234,7 +238,6 @@ export default function Index() {
                   } else {
                     scaleSliders(value, path, children);
                   }
-                  updateDonations();
                 }}
                 {...metadata}
               />
@@ -270,37 +273,45 @@ export default function Index() {
   return (
     <Layout>
       <div class="box">{renderSliders(sliders.toJS().children)}</div>
-      <div className="box">
-        <table class="table is-striped is-hoverable is-fullwidth">
-          <thead>
-            <tr>
-              <th>Charity</th>
-              <th>Monthly</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <b>Overall monthly donation</b>
-              </td>
-              <td>
-                <b>£{total.toFixed(2)}</b>
-              </td>
-            </tr>
-            {Object.entries(donations)
-              .sort((a, b) => b[1] - a[1])
-              .map(([charity, donation]) =>
-                donation ? (
-                  <tr>
-                    <td>{charity}</td>
-                    <td>£{donation.toFixed(2)}</td>
-                  </tr>
-                ) : null
-              )}
-          </tbody>
-        </table>
+      <div className="columns">
+        <div className="column">
+          <div className="box">
+            <table className="table is-striped is-hoverable is-fullwidth">
+              <thead>
+              <tr>
+                <th>Charity</th>
+                <th>Monthly</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td>
+                  <b>Overall monthly donation</b>
+                </td>
+                <td>
+                  <b>£{total.toFixed(2)}</b>
+                </td>
+              </tr>
+              {Object.entries(donations)
+                .sort((a, b) => b[1] - a[1])
+                .map(([charity, donation]) =>
+                  donation ? (
+                    <tr>
+                      <td>{charity}</td>
+                      <td>£{donation.toFixed(2)}</td>
+                    </tr>
+                  ) : null
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div className="column">
+          <div className="box">
+            <PayPalButton items={Object.entries(donations)} />
+          </div>
+        </div>
       </div>
-      <PayPalButton items={Object.entries(donations)} />
     </Layout>
   );
 }
