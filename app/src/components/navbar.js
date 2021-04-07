@@ -30,12 +30,12 @@ export function NavBar() {
           <Link to="/docs" className="navbar-item">
             Docs
           </Link>
-          <Link to="/stats" className="navbar-item">
-            Stats
-          </Link>
-          <Link to="/news" className="navbar-item">
-            News
-          </Link>
+          {/*<Link to="/stats" className="navbar-item">*/}
+          {/*  Stats*/}
+          {/*</Link>*/}
+          {/*<Link to="/news" className="navbar-item">*/}
+          {/*  News*/}
+          {/*</Link>*/}
         </div>
       </div>
     </nav>

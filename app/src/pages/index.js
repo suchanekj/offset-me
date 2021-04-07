@@ -280,6 +280,10 @@ export default function Index() {
 
   return (
     <Layout>
+      <div className="box">
+        <b>Efficiently undo negative effects of your consumption.</b> Below are marked estimates for an average british
+        citizen with a disposable household income of £35000. More info in <a href="/docs">docs</a>.
+      </div>
       <div class="box">{renderSliders(sliders.toJS().children)}</div>
       <div className="columns">
         <div className="column">
