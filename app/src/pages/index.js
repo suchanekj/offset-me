@@ -50,14 +50,14 @@ export default function Index() {
             JAAGO_Foundation
             UNICEF_south_africa
             Lola_Karimova_Tillyaeva
-            Cambodian_Children_s_Fund
+            Cambodian_Childrens_Fund
             Plan_vivo
             Gold_Standard
             Founders_Pledge_Climate_change_fund
             Clean_Air_Task_Force
             WILD_Foundation
             Cool_earth
-            ACE_s_Recommended_Charity_Fund
+            ACEs_Recommended_Charity_Fund
             New_Harvest
             Oceana
             Environmental_Working_Group
@@ -120,7 +120,6 @@ export default function Index() {
 
   function scaleChildren(tree, children_to_change, newValue) {
     if (children_to_change) {
-      console.log(children_to_change, newValue, Object.keys(children_to_change).length)
       const childrenEntries = Object.entries(children_to_change);
       const currentSumOfChildren = childrenEntries.reduce(
         (acc, [_, { value }]) => acc + Number(value),
@@ -131,8 +130,10 @@ export default function Index() {
       let finished = true;
       for (let [x, { value, metadata, path, children }] of childrenEntries) {
         if (metadata.unit === "£") {
-          let newChildValue = currentSumOfChildren === 0 ? newValue / Object.keys(children_to_change).length
-                                                         : value * multiplier;
+          let newChildValue =
+            currentSumOfChildren === 0
+              ? newValue / Object.keys(children_to_change).length
+              : value * multiplier;
           if (newChildValue >= Number(metadata.max)) {
             newChildValue = Number(metadata.max);
             newValue = newValue - newChildValue;
@@ -191,7 +192,7 @@ export default function Index() {
 
   useEffect(() => {
     // calculate donations
-    const donations = data.allCalculationsCsv.nodes.reduce(
+    let donations = data.allCalculationsCsv.nodes.reduce(
       (acc, { slider, charities }) => {
         const obj = slider.reduce(
           (obj, child) => obj.children[child],
@@ -218,6 +219,13 @@ export default function Index() {
       },
       {}
     );
+
+    // remove underscores
+    donations = Object.entries(donations).reduce((acc, [charity, donation]) => {
+      acc[charity.replaceAll("_", " ")] = donation;
+      return acc;
+    }, {});
+
     setDonations(donations);
   }, [sliders, data.allCalculationsCsv]);
 
@@ -278,30 +286,30 @@ export default function Index() {
           <div className="box">
             <table className="table is-striped is-hoverable is-fullwidth">
               <thead>
-              <tr>
-                <th>Charity</th>
-                <th>Monthly</th>
-              </tr>
+                <tr>
+                  <th>Charity</th>
+                  <th>Monthly</th>
+                </tr>
               </thead>
               <tbody>
-              <tr>
-                <td>
-                  <b>Overall monthly donation</b>
-                </td>
-                <td>
-                  <b>£{total.toFixed(2)}</b>
-                </td>
-              </tr>
-              {Object.entries(donations)
-                .sort((a, b) => b[1] - a[1])
-                .map(([charity, donation]) =>
-                  donation ? (
-                    <tr>
-                      <td>{charity}</td>
-                      <td>£{donation.toFixed(2)}</td>
-                    </tr>
-                  ) : null
-                )}
+                <tr>
+                  <td>
+                    <b>Overall monthly donation</b>
+                  </td>
+                  <td>
+                    <b>£{total.toFixed(2)}</b>
+                  </td>
+                </tr>
+                {Object.entries(donations)
+                  .sort((a, b) => b[1] - a[1])
+                  .map(([charity, donation]) =>
+                    donation ? (
+                      <tr>
+                        <td>{charity}</td>
+                        <td>£{donation.toFixed(2)}</td>
+                      </tr>
+                    ) : null
+                  )}
               </tbody>
             </table>
           </div>
