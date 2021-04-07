@@ -6,15 +6,12 @@ export function NavBar() {
 
   return (
     <nav class="navbar" role="navigation" aria-label="main navigation">
-      <div class="navbar-brand">
-        <Link to="/" className="navbar-item button is-large is-outlined is-primary">
-          {/*<img*/}
-          {/*  src="https://bulma.io/images/bulma-logo.png"*/}
-          {/*  alt="logo"*/}
-          {/*  width="112"*/}
-          {/*  height="28"*/}
-          {/*/>*/}
-          Offset me!
+      <div class="navbar-brand is-align-items-center mx-2">
+        <Link to="/" className="button is-primary">
+          <span class="icon">
+            <i class="fa fa-donate"></i>
+          </span>
+          <span>Offset me!</span>
         </Link>
         <a
           role="button"
