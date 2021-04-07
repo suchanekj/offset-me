@@ -235,7 +235,7 @@ export default function Index() {
       const isOpen = Boolean(openedSliders[name]);
       return (
         <>
-          <div class="columns is-vcentered">
+          <div class="columns is-vcentered is-mobile">
             <div class="column form-row">
               <Slider
                 name={name}

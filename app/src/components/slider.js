@@ -15,7 +15,7 @@ export const Slider = ({
     setValue(Number(e.target.value));
   };
   return (
-    <div class="columns is-vcentered">
+    <div class="columns is-vcentered is-mobile">
       <label
         for="slider"
         class={"column form-text form-level-" + String(level)}
