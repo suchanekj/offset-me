@@ -20,7 +20,7 @@ module.exports = {
     {
       resolve: `gatsby-plugin-paypal`,
       options: {
-        clientId: `AQiyCnJccT4VDYRHoHsLIQea8gDOxxK2BZ33LCIlAm4LgUcEu5NEsfz_YsPJsqFT2kr0KiIcvIyHBANa`,
+        clientId: `AY9o9-y2kiJGH7FePCf_jxCsjKGrtgqjF5VXqgNSuNeDllyfrmqLShYQbcXAFIVEIHRTRjIDQdmtQs5l`,
         currency: `GBP`,
       },
     },
