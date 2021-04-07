@@ -28,7 +28,12 @@ npm run serve
 
 ## Deploying the app
 
-First build the app as above, then `scp` the resulting `public` folder onto the Cambridge SRCF server.
+The app is automatically deployed to GitHub pages on merge to master. To deploy manually, run:
+
+```sh
+cd app/
+npm run deploy
+```
 
 ## Learn more about Gatsby and Bulma
 
