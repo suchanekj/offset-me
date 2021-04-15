@@ -320,6 +320,8 @@ export default function Index() {
         </div>
         <div className="column">
           <div className="box">
+            As we are only just launching, donations are one-time. <a href="/news">Subscribe</a> to get notified when
+            monthly subscription gets launched.
             <PayPalButton items={Object.entries(donations)} />
           </div>
         </div>

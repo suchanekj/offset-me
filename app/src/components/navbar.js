@@ -27,15 +27,18 @@ export function NavBar() {
       </div>
       <div class={`navbar-menu ${isActive && "is-active"}`}>
         <div class="navbar-start">
-          <Link to="/docs" className="navbar-item">
+          <Link to="/documentation" className="navbar-item">
             Docs
           </Link>
-          {/*<Link to="/stats" className="navbar-item">*/}
-          {/*  Stats*/}
-          {/*</Link>*/}
-          {/*<Link to="/news" className="navbar-item">*/}
-          {/*  News*/}
-          {/*</Link>*/}
+          <Link to="/news" className="navbar-item">
+            News
+          </Link>
+          <Link to="/about" className="navbar-item">
+            About us
+          </Link>
+          <Link to="/contact" className="navbar-item">
+            Contact us
+          </Link>
         </div>
       </div>
     </nav>
