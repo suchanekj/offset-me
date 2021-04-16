@@ -6,7 +6,7 @@ export const PayPalButton = ({ items }) => {
 
   // Add in PayPal's commission
   // https://www.paypal.com/uk/webapps/mpp/merchant-fees
-  const commission = 0.3 + 0.012 * total;
+  const commission = total <= 5 ? (0.05 + 0.05 * total) / 0.95 : (0.3 + 0.029 * total) / 0.971;
 
   const totalWithCommission = total + commission;
 

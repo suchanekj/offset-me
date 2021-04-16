@@ -282,9 +282,14 @@ export default function Index() {
     <Layout>
       <div className="box">
         <b>Efficiently undo negative effects of your consumption.</b> Below are marked estimates for an average british
-        citizen with a disposable household income of £35000. More info in <a href="/docs">docs</a>.
+        citizen with a disposable household income of £35000. More info in <a href="/docs">docs</a>. <b>We would
+        appreciate any <a href="/contact">feedback</a></b>.
       </div>
-      <div class="box">{renderSliders(sliders.toJS().children)}</div>
+      <div class="box">
+        Move sliders to change priority of different causes or exclude some. Or move them if your income/spending
+        is different than UK average.
+        {renderSliders(sliders.toJS().children)}
+      </div>
       <div className="columns">
         <div className="column">
           <div className="box">
@@ -322,7 +327,11 @@ export default function Index() {
           <div className="box">
             As we are only just launching, donations are one-time. <a href="/news">Subscribe</a> to get notified when
             monthly subscription gets launched.
+
             <PayPalButton items={Object.entries(donations)} />
+            (It's impossible to avoid a payment fee using card payments, just usually it's hidden from the customer.
+            It will be higher if a non-UK card is used. We will notify you when we pass on your donation where exactly
+            your money went.)
           </div>
         </div>
       </div>

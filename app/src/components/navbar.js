@@ -37,7 +37,7 @@ export function NavBar() {
             About us
           </Link>
           <Link to="/contact" className="navbar-item">
-            Contact us
+            Contact us / Feedback
           </Link>
         </div>
       </div>
