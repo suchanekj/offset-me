@@ -6,6 +6,8 @@ export const PayPalButton = ({ items }) => {
 
   // Add in PayPal's commission
   // https://www.paypal.com/uk/webapps/mpp/merchant-fees
+  // differentiating micropayments and regular payments, disregarding international payments. For domestic payments
+  // this is still a few pennies off...
   const commission = total <= 5 ? (0.05 + 0.05 * total) / 0.95 : (0.3 + 0.029 * total) / 0.971;
 
   const totalWithCommission = total + commission;

@@ -281,13 +281,20 @@ export default function Index() {
   return (
     <Layout>
       <div className="box">
-        <b>Efficiently undo negative effects of your consumption.</b> Below are marked estimates for an average british
-        citizen with a disposable household income of £35000. More info in <a href="/docs">docs</a>. <b>We would
-        appreciate any <a href="/contact">feedback</a></b>.
+        <b>Efficiently undo negative effects of your consumption.</b> Goal isn't to fix any of these problems but
+        to stop making them worse. We don't understand any of these cause areas enough to be able to say they can be left
+        for later while we focus on climate change and other pressing problems. Hence our recomendation is to reduce
+        what demage you do in all of these areas, offset yourself for where that isn't possible and then do good
+        on top of that through organizations like <a href="https://www.effectivealtruism.org/">Effective Altruism</a>.
+        More info on methodology in <a href="/docs">docs</a>. <b> We would appreciate any
+        <a href="/contact"> feedback</a></b>.
       </div>
       <div class="box">
-        Move sliders to change priority of different causes or exclude some. Or move them if your income/spending
-        is different than UK average.
+        <div class="block">
+          Below are marked estimates for an average british citizen with a disposable household income of £35000.
+          Move sliders to change priority of different causes or exclude some. Or move them if your income/spending
+          is different than UK average.
+        </div>
         {renderSliders(sliders.toJS().children)}
       </div>
       <div className="columns">

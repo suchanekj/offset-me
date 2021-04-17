@@ -42,7 +42,7 @@ export default function About() {
         </div>
       </div>
       <div className="box">
-        <h1 class="title is-2">Motivation</h1>
+        <h1 class="title is-2">Motivation for starting this project</h1>
         <div className="content">
           <p>Initial idea for this project came when I impulsively decided I want to offset my carbon footprint
             but couldn't find a quick way to estimate my footprint and offset it. As it was an impulsive decision
