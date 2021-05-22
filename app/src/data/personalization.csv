@@ -1,0 +1,5 @@
+﻿slider.0,low,mid,high,max,unit,Climate crisis,Nitrogen and phosphorus cycle,Freshwater use,Primary forest loss,Secondary forest loss,Other land changes,Biodiversity loss,Plastics,Persistent organic pollutants,Other pollutants,Poverty labour,Wildlife,Farm animals
+domestic income / spending,12000,35000,69000,150000,£/year,1,1,1,1,1,1,1,1,1,1,1,1,1
+annual air-miles,0,2300,20000,40000,miles/year,0.031,0.13,0.1,0.13,0.13,0.13,0.05,0,0.13,0,0,0,0
+meat eating,0,0.25,0.4,1,%cal,0.042,0.3,0.24,0.9,0.9,0.9,0.4,0,0.3,0,0,0.5,1
+weekly car miles,0,50,250,500,miles/week,0.11,0.23,0.17,0.23,0.23,0.23,0.08,0,0.23,0,0,0,0

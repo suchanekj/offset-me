@@ -1,15 +1,51 @@
 import React from "react";
 
+const SliderMarks = ({high, low, mid, max}) => {
+  return (
+    <div className="slider-marks">
+          <span
+            className="slider-mark"
+            style={{
+              marginLeft: String((Number(low) / Number(max)) * 100) + "%",
+            }}
+          >
+            ▶
+          </span>
+      <span
+        className="slider-mark"
+        style={{
+          marginLeft:
+            String(((Number(mid) - Number(low)) / Number(max)) * 100) + "%",
+        }}
+      >
+            ▲
+          </span>
+      <span
+        className="slider-mark"
+        style={{
+          marginLeft:
+            String(((Number(high) - Number(mid)) / Number(max)) * 100) +
+            "%",
+          marginRight: "auto",
+        }}
+      >
+            ◀
+          </span>
+    </div>
+  )
+}
+
+
 export const Slider = ({
   name,
   value,
   setValue,
-  max,
-  unit,
-  level,
-  high,
-  low,
-  mid,
+  max=100,
+  unit="%",
+  level=0,
+  high=null,
+  low=null,
+  mid=null,
 }) => {
   const handleChange = (e) => {
     setValue(Number(e.target.value));
@@ -33,36 +69,7 @@ export const Slider = ({
           value={value}
           onChange={handleChange}
         />
-        <div className="slider-marks">
-          <span
-            className="slider-mark"
-            style={{
-              marginLeft: String((Number(low) / Number(max)) * 100) + "%",
-            }}
-          >
-            ▶
-          </span>
-          <span
-            className="slider-mark"
-            style={{
-              marginLeft:
-                String(((Number(mid) - Number(low)) / Number(max)) * 100) + "%",
-            }}
-          >
-            ▲
-          </span>
-          <span
-            className="slider-mark"
-            style={{
-              marginLeft:
-                String(((Number(high) - Number(mid)) / Number(max)) * 100) +
-                "%",
-              marginRight: "auto",
-            }}
-          >
-            ◀
-          </span>
-        </div>
+        {high !== null && low !== null && mid !== null ? SliderMarks(high, low, mid, max) : null}
       </div>
       <output for="slider" class="column form-value">
         {unit === "%" ? `${value.toFixed(1)} %` : `£ ${value.toFixed(2)}`}
